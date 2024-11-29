@@ -93,7 +93,6 @@ int main(int argc, const char * argv[]) {
     
     SDL_SetWindowTitle(window, "La Polo de Jarod");
     
-    
     SDL_Event event;
     bool quit = false;
     
