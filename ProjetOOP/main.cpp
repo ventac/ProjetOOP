@@ -63,7 +63,6 @@ void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
     // Faire la texture révenir au debut
     //if (posY)
     
-    
     SDL_RenderPresent(*r); // update the screen
 
     // Destroy the texture after rendering
