@@ -4,6 +4,9 @@ Ce sera un jeu programmé en SDL. Un jeu arcade de type endless runner game, tel
 ## Inspiration:
 <img width="605" alt="image" src="https://github.com/user-attachments/assets/6fdd9311-8975-4d16-b1ce-9b89a3fd0338">
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hMOhDChltUY?si=6aqpXsX0AN4xZ2PA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
 In
 Quantité d’argent
 Bônus
