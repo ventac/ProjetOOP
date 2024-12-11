@@ -37,6 +37,7 @@
 /* Begin PBXFileReference section */
 		3219C3772CB2B85300B4AF75 /* ProjetOOP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ProjetOOP; sourceTree = BUILT_PRODUCTS_DIR; };
 		3219C3822CB2B8EF00B4AF75 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		32CC461D2D0976DE00D93B44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -62,6 +63,7 @@
 		3219C36E2CB2B85300B4AF75 = {
 			isa = PBXGroup;
 			children = (
+				32CC461D2D0976DE00D93B44 /* README.md */,
 				3219C3792CB2B85300B4AF75 /* ProjetOOP */,
 				3219C3812CB2B8EF00B4AF75 /* Frameworks */,
 				3219C3782CB2B85300B4AF75 /* Products */,
