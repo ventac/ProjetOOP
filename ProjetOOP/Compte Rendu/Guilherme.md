@@ -11,6 +11,9 @@
 - Rewrote the documentation in MD format to improve readability.
 - Decided to use VS Code instead of Xcode because it was not working properly on Jarod's PC.
 
+
+
+
 c++ -o main ProjetOOP/main.cpp -I/usr/local/include -L/usr/local/lib -lSDL2
 c++ -std=c++23 c++ -o main ProjetOOP/main.cpp -I/usr/local/include -L/usr/local/lib -lSDL2
 
