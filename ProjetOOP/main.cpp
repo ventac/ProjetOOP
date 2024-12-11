@@ -1,6 +1,7 @@
-//TEST COMMIT JAROD
 //  main.cpp
 //  ProjetOOP
+//Ligne de code pour compilé : 
+//g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
 //
 //  Created by Guilherme Ventapane on 6/10/24.
 // https://www.youtube.com/watch?v=JbsmRKi18SI&list=PLJ-vQubfi2yEfPCqb1lr9GX2Kc1NhU4du
@@ -30,7 +31,9 @@ void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
         posY = 0;
     }
     
-    SDL_Surface* image = SDL_LoadBMP("./Ressources/road1.bmp"); // load image
+    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // load image
+    std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
+
     if (!image) {
         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
         return;
@@ -70,8 +73,6 @@ void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
 }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    cout << "Hello, World!\n";
     
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
         cout << "error" << SDL_GetError();
