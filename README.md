@@ -4,8 +4,7 @@ Ce sera un jeu programmé en SDL. Un jeu arcade de type endless runner game, tel
 ## Inspiration:
 <img width="605" alt="image" src="https://github.com/user-attachments/assets/6fdd9311-8975-4d16-b1ce-9b89a3fd0338">
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hMOhDChltUY?si=6aqpXsX0AN4xZ2PA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
+<img width="605" alt="image" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F66.media.tumblr.com%2Ff708fae33ab08f9925f20378503a9758%2Ftumblr_mhb6zjbkhR1qh8rq6o1_500.gif&f=1&nofb=1&ipt=4acf48ae2cd4ff2cb79215daa5f1b5965c043337e9e776b01d1a5ae82b82c5ab&ipo=images">
 
 In
 Quantité d’argent
