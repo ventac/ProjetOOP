@@ -32,7 +32,7 @@ void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
     }
     
     SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // load image
-    std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
+    //std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
 
     if (!image) {
         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
