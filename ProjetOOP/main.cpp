@@ -97,7 +97,7 @@ int main(int argc, const char * argv[]) {
     bool quit = false;
     
     // Frames
-    Uint32 frameStart = NULL;
+    Uint32 frameStart = 0;
     int frameTime;
 
     int posY = 0;

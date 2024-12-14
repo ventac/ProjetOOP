@@ -10,8 +10,9 @@
 - Created this document to take notes of progress.
 - Rewrote the documentation in MD format to improve readability.
 - Decided to use VS Code instead of Xcode because it was not working properly on Jarod's PC.
+- Thanks to Jarod and the teacher, the project works in Visual Studio Code and it will be the IDE we will use for now on.
 
-
+## 
 
 
 c++ -o main ProjetOOP/main.cpp -I/usr/local/include -L/usr/local/lib -lSDL2
