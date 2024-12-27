@@ -21,56 +21,100 @@ using namespace std;
 
 
 // Function to display an image using SDL_Renderer
-void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
+// void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
     
-    const int TAILLE_IMAGE = 600;
+//     const int TAILLE_IMAGE = 600;
     
-    // Update the offset position
-    posY -= VITESSE;
-    if (posY <= -TAILLE_IMAGE) {
+//     // Update the offset position
+//     posY += VITESSE;
+//     if (posY >= TAILLE_IMAGE) {
+//         posY = 0;
+//     }
+    
+//     SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // load image
+//     //std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
+
+//     if (!image) {
+//         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
+//         return;
+//     }
+
+//     SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // surface into texture
+//     if (!pTextureImage) {
+//         std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+//         SDL_FreeSurface(image);
+//         return;
+//     }
+
+//     SDL_FreeSurface(image); // free the surface
+
+//     // Clear the renderer and draw the image
+//     SDL_SetRenderDrawColor(*r, 0, 0, 0, 255); // black background
+//     SDL_RenderClear(*r);
+
+//     // Dimensoes da tela
+    
+//     //int pos
+    
+//     SDL_Rect dest = { 0, posY, SCREEN_WIDTH, TAILLE_IMAGE};
+//     SDL_Rect dest2 = { 0, posY + TAILLE_IMAGE, SCREEN_WIDTH, TAILLE_IMAGE};
+//     SDL_Rect dest3 = { 0, posY + (TAILLE_IMAGE * 2), SCREEN_WIDTH, TAILLE_IMAGE};
+//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest); // copy texture to the renderer
+//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest2);
+//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest3);
+    
+//     // Faire la texture révenir au debut
+//     //if (posY)
+    
+//     SDL_RenderPresent(*r); // update the screen
+
+//     // Destroy the texture after rendering
+//     SDL_DestroyTexture(pTextureImage);
+// }
+
+void afficherRoute(SDL_Renderer** r, int& posY) {
+    const int TAILLE_IMAGE = 600; // Taille de l'image de la route
+    const int SCREEN_HEIGHT = 800; // Remplacez par la hauteur réelle de votre écran
+    const int SCREEN_WIDTH = 800;  // Remplacez par la largeur réelle de votre écran
+
+    // Mise à jour de la position pour un défilement vers le bas
+    posY += VITESSE;
+    if (posY >= TAILLE_IMAGE) {
         posY = 0;
     }
-    
-    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // load image
-    //std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
+
+    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // Chargez l'image
 
     if (!image) {
         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
         return;
     }
 
-    SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // surface into texture
+    SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // Convertit en texture
+    SDL_FreeSurface(image); // Libère la surface
+
     if (!pTextureImage) {
         std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-        SDL_FreeSurface(image);
         return;
     }
 
-    SDL_FreeSurface(image); // free the surface
-
-    // Clear the renderer and draw the image
-    SDL_SetRenderDrawColor(*r, 0, 0, 0, 255); // black background
+    // Efface l'écran avec un fond noir
+    SDL_SetRenderDrawColor(*r, 0, 0, 0, 255);
     SDL_RenderClear(*r);
 
-    // Dimensoes da tela
-    
-    //int pos
-    
-    SDL_Rect dest = { 0, posY, SCREEN_WIDTH, TAILLE_IMAGE};
-    SDL_Rect dest2 = { 0, posY + TAILLE_IMAGE, SCREEN_WIDTH, TAILLE_IMAGE};
-    SDL_Rect dest3 = { 0, posY + (TAILLE_IMAGE * 2), SCREEN_WIDTH, TAILLE_IMAGE};
-    SDL_RenderCopy(*r, pTextureImage, NULL, &dest); // copy texture to the renderer
-    SDL_RenderCopy(*r, pTextureImage, NULL, &dest2);
-    SDL_RenderCopy(*r, pTextureImage, NULL, &dest3);
-    
-    // Faire la texture révenir au debut
-    //if (posY)
-    
-    SDL_RenderPresent(*r); // update the screen
+    // Affiche plusieurs segments de l'image de la route pour couvrir tout l'écran
+    for (int i = -1; i <= SCREEN_HEIGHT / TAILLE_IMAGE + 1; ++i) {
+        SDL_Rect dest = { 0, posY - i * TAILLE_IMAGE, SCREEN_WIDTH, TAILLE_IMAGE };
+        SDL_RenderCopy(*r, pTextureImage, NULL, &dest);
+    }
 
-    // Destroy the texture after rendering
+    // Met à jour l'écran
+    SDL_RenderPresent(*r);
+
+    // Détruit la texture après rendu
     SDL_DestroyTexture(pTextureImage);
 }
+
 
 int main(int argc, const char * argv[]) {
     
