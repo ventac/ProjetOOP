@@ -2,9 +2,6 @@
 //  ProjetOOP
 // Compilation command: 
 // g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
-//
-//
-//
 // https://www.youtube.com/watch?v=JbsmRKi18SI&list=PLJ-vQubfi2yEfPCqb1lr9GX2Kc1NhU4du
 
 #include <iostream>

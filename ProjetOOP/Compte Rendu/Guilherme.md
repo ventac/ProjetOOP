@@ -14,3 +14,5 @@
 
 ## Monday, January 6, 2025
 - Made changes to README.md, adding install instructions.
+- Added GitHub badges.
+- Created "create-player-car" branch.
