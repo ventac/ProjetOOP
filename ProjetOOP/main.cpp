@@ -10,12 +10,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <cmath>
+#include <vector>
+#include "NPC.h"
+#include "constants.h"  // Inclut le fichier des constantes
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 800;
-const int FPS = 60; // Desired frame rate
-const int FRAME_DELAY = 1000 / FPS; // Frame delay in milliseconds
-const int SPEED = 1;
+
+
 
 using namespace std;
 
@@ -30,7 +30,7 @@ void renderRoad(SDL_Renderer** r, int& posY) {
         posY = 0;
     }
 
-    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // Load the image
+    SDL_Surface* image = SDL_LoadBMP(ROAD_IMAGE_PATH); // Load the image
 
     if (!image) {
         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
@@ -63,62 +63,116 @@ void renderRoad(SDL_Renderer** r, int& posY) {
 }
 
 
+// int main(int argc, const char * argv[]) {
+    
+//     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+//         cout << "Error: " << SDL_GetError();
+//         return 1;
+//     }else cout << "OK";
+    
+//     SDL_Window *window = NULL;
+//     SDL_Renderer *renderer = NULL;
+    
+//     // window = SDL_CreateWindow("La Polo de Jarod", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    
+//     SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN, &window, &renderer);
+    
+//     if (!window){
+//         cerr << "Error: " << SDL_GetError();
+//         return 1;
+//     }
+    
+//     SDL_SetWindowTitle(window, "La Polo de Jarod");
+    
+//     SDL_Event event;
+//     bool quit = false;
+    
+//     // Frames
+//     Uint32 frameStart = 0;
+//     int frameTime;
+
+//     int posY = 0;
+    
+//     while (!quit) {
+//         // Event handling --------------------------------------------------
+//         while (SDL_PollEvent(&event)){
+//             if (event.type == SDL_QUIT){
+//                 quit = true;
+//             }
+//         }
+//         // Rendering -------------------------------------------------------
+//         // SDL_SetRenderDrawColor(renderer, 200, 20, 0, 255); // R=200, G=20, B=0
+//         // SDL_RenderClear(renderer);
+//         renderRoad(&renderer, posY);
+//         // SDL_RenderPresent(renderer);
+        
+//         frameTime = SDL_GetTicks() - frameStart;
+//         if (frameTime < FRAME_DELAY) {
+//             SDL_Delay(FRAME_DELAY - frameTime);
+//         }
+        
+//         // Update ----------------------------------------------------------
+        
+//     }
+    
+//     SDL_DestroyWindow(window);
+//     SDL_Quit();
+//     return 0;
+    
+// }
+
 int main(int argc, const char * argv[]) {
-    
-    if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
-        cout << "Error: " << SDL_GetError();
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        std::cerr << "Error: " << SDL_GetError() << std::endl;
         return 1;
-    }else cout << "OK";
+    }
     
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    
-    // window = SDL_CreateWindow("La Polo de Jarod", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
-    
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
     SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN, &window, &renderer);
     
-    if (!window){
-        cerr << "Error: " << SDL_GetError();
+    if (!window) {
+        std::cerr << "Error: " << SDL_GetError() << std::endl;
         return 1;
     }
     
     SDL_SetWindowTitle(window, "La Polo de Jarod");
+
+    std::vector<NPC> npcs = {
+        NPC(renderer, "./Resources/IMG/npc_cars/redCars.bmp", 100, 0, 2),  // NPC at (100, 0) with speed 2
+        NPC(renderer, "./Resources/IMG/npc_cars/peugeot108.bmp", 300, -100, 3) // NPC at (300, -100) with speed 3
+    };
     
     SDL_Event event;
     bool quit = false;
-    
-    // Frames
     Uint32 frameStart = 0;
     int frameTime;
-
     int posY = 0;
     
     while (!quit) {
-        // Event handling --------------------------------------------------
-        while (SDL_PollEvent(&event)){
-            if (event.type == SDL_QUIT){
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
                 quit = true;
             }
         }
-        // Rendering -------------------------------------------------------
-        // SDL_SetRenderDrawColor(renderer, 200, 20, 0, 255); // R=200, G=20, B=0
-        // SDL_RenderClear(renderer);
-        renderRoad(&renderer, posY);
-        // SDL_RenderPresent(renderer);
         
+        renderRoad(&renderer, posY);
+
+        // Update and render each NPC
+        for (auto& npc : npcs) {
+            npc.update();
+            npc.render(renderer);
+        }
+        
+        SDL_RenderPresent(renderer);
+
         frameTime = SDL_GetTicks() - frameStart;
         if (frameTime < FRAME_DELAY) {
             SDL_Delay(FRAME_DELAY - frameTime);
         }
-        
-        // Update ----------------------------------------------------------
-        
     }
     
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
-    
 }
-
-// Test GitHub XCode
