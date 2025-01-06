@@ -1,9 +1,10 @@
 //  main.cpp
 //  ProjetOOP
-//Ligne de code pour compilé : 
-//g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
+// Compilation command: 
+// g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
 //
-//  Created by Guilherme Ventapane on 6/10/24.
+//
+//
 // https://www.youtube.com/watch?v=JbsmRKi18SI&list=PLJ-vQubfi2yEfPCqb1lr9GX2Kc1NhU4du
 
 #include <iostream>
@@ -14,104 +15,50 @@ const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 800;
 const int FPS = 60; // Desired frame rate
 const int FRAME_DELAY = 1000 / FPS; // Frame delay in milliseconds
-const int VITESSE = 1;
-
+const int SPEED = 1;
 
 using namespace std;
 
+void renderRoad(SDL_Renderer** r, int& posY) {
+    const int IMAGE_SIZE = 600; // Size of the road image
+    const int SCREEN_HEIGHT = 800; // Replace with the actual screen height
+    const int SCREEN_WIDTH = 800;  // Replace with the actual screen width
 
-// Function to display an image using SDL_Renderer
-// void afficherRoute(SDL_Renderer** r, int& posY){//, int posX, int posY) {
-    
-//     const int TAILLE_IMAGE = 600;
-    
-//     // Update the offset position
-//     posY += VITESSE;
-//     if (posY >= TAILLE_IMAGE) {
-//         posY = 0;
-//     }
-    
-//     SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // load image
-//     //std::cerr << "Current working directory: " << SDL_GetBasePath() << std::endl;
-
-//     if (!image) {
-//         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
-//         return;
-//     }
-
-//     SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // surface into texture
-//     if (!pTextureImage) {
-//         std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-//         SDL_FreeSurface(image);
-//         return;
-//     }
-
-//     SDL_FreeSurface(image); // free the surface
-
-//     // Clear the renderer and draw the image
-//     SDL_SetRenderDrawColor(*r, 0, 0, 0, 255); // black background
-//     SDL_RenderClear(*r);
-
-//     // Dimensoes da tela
-    
-//     //int pos
-    
-//     SDL_Rect dest = { 0, posY, SCREEN_WIDTH, TAILLE_IMAGE};
-//     SDL_Rect dest2 = { 0, posY + TAILLE_IMAGE, SCREEN_WIDTH, TAILLE_IMAGE};
-//     SDL_Rect dest3 = { 0, posY + (TAILLE_IMAGE * 2), SCREEN_WIDTH, TAILLE_IMAGE};
-//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest); // copy texture to the renderer
-//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest2);
-//     SDL_RenderCopy(*r, pTextureImage, NULL, &dest3);
-    
-//     // Faire la texture révenir au debut
-//     //if (posY)
-    
-//     SDL_RenderPresent(*r); // update the screen
-
-//     // Destroy the texture after rendering
-//     SDL_DestroyTexture(pTextureImage);
-// }
-
-void afficherRoute(SDL_Renderer** r, int& posY) {
-    const int TAILLE_IMAGE = 600; // Taille de l'image de la route
-    const int SCREEN_HEIGHT = 800; // Remplacez par la hauteur réelle de votre écran
-    const int SCREEN_WIDTH = 800;  // Remplacez par la largeur réelle de votre écran
-
-    // Mise à jour de la position pour un défilement vers le bas
-    posY += VITESSE;
-    if (posY >= TAILLE_IMAGE) {
+    // Update position for scrolling down
+    posY += SPEED;
+    if (posY >= IMAGE_SIZE) {
         posY = 0;
     }
 
-    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // Chargez l'image
+    SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); // Load the image
 
     if (!image) {
         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
         return;
     }
 
-    SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // Convertit en texture
-    SDL_FreeSurface(image); // Libère la surface
+    SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); // Convert to texture
+    SDL_FreeSurface(image); // Free the surface
 
     if (!pTextureImage) {
         std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
         return;
     }
 
-    // Efface l'écran avec un fond noir
+    // Clear the screen with a black background
     SDL_SetRenderDrawColor(*r, 0, 0, 0, 255);
     SDL_RenderClear(*r);
 
-    // Affiche plusieurs segments de l'image de la route pour couvrir tout l'écran
-    for (int i = -1; i <= SCREEN_HEIGHT / TAILLE_IMAGE + 1; ++i) {
-        SDL_Rect dest = { 0, posY - i * TAILLE_IMAGE, SCREEN_WIDTH, TAILLE_IMAGE };
+    // Render multiple segments of the road image to cover the entire screen
+    for (int i = -1; i <= SCREEN_HEIGHT / IMAGE_SIZE + 1; ++i) {
+        SDL_Rect dest = { 0, posY - i * IMAGE_SIZE, SCREEN_WIDTH, IMAGE_SIZE };
         SDL_RenderCopy(*r, pTextureImage, NULL, &dest);
     }
 
-    // Met à jour l'écran
+    // Update the screen
     SDL_RenderPresent(*r);
 
-    // Détruit la texture après rendu
+    // Destroy the texture after rendering
     SDL_DestroyTexture(pTextureImage);
 }
 
@@ -119,19 +66,19 @@ void afficherRoute(SDL_Renderer** r, int& posY) {
 int main(int argc, const char * argv[]) {
     
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
-        cout << "error" << SDL_GetError();
+        cout << "Error: " << SDL_GetError();
         return 1;
     }else cout << "OK";
     
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     
-    //window = SDL_CreateWindow("La Polo de Jarod", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
+    // window = SDL_CreateWindow("La Polo de Jarod", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
     
-    SDL_CreateWindowAndRenderer( SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN, &window, &renderer);
+    SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN, &window, &renderer);
     
     if (!window){
-        cerr << "error" << SDL_GetError();
+        cerr << "Error: " << SDL_GetError();
         return 1;
     }
     
@@ -154,11 +101,10 @@ int main(int argc, const char * argv[]) {
             }
         }
         // Rendering -------------------------------------------------------
-        //SDL_SetRenderDrawColor(renderer, 200, 20, 0, 255); // R=200, G=20, B=0
-        //DL_RenderClear(renderer);
-        afficherRoute(&renderer, posY);
-        //SDL_RenderPresent(renderer);
-        
+        // SDL_SetRenderDrawColor(renderer, 200, 20, 0, 255); // R=200, G=20, B=0
+        // SDL_RenderClear(renderer);
+        renderRoad(&renderer, posY);
+        // SDL_RenderPresent(renderer);
         
         frameTime = SDL_GetTicks() - frameStart;
         if (frameTime < FRAME_DELAY) {

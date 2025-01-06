@@ -6,31 +6,6 @@ Ce sera un jeu programmé en SDL. Un jeu arcade de type endless runner game, tel
 
 <img width="200" alt="image" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F66.media.tumblr.com%2Ff708fae33ab08f9925f20378503a9758%2Ftumblr_mhb6zjbkhR1qh8rq6o1_500.gif&f=1&nofb=1&ipt=4acf48ae2cd4ff2cb79215daa5f1b5965c043337e9e776b01d1a5ae82b82c5ab&ipo=images">
 
-In
-Quantité d’argent
-Bônus
-Rendre petite les voitures adverse ou les faires disparaitre pendant X seconde
-Pouvoir passer au dessus des adversaires
-Plus de vitesse/slow motion
-Argent doublé
-Malus
-Des clous pour percer les pneus.
-Se faire contrôler par la police (radar)
-Péages
-Essence
-Si plus d’essence alors GAME OVER
-si on prend un bidon de diesel à la place de l’essence alors GAME OVER
-Acheter d’autres voiture
-Peugeot 108 Roland Garros
-Peugeot 308
-Polo Rouge de Jarod
-Ford Mustang
-Chaque voiture possède des bonus particulier, par exemple la 308 peut aller plus vite dans les virage
-Animation
-Appel de phare et klaxon si proche d’une voiture
-les pièce de monnais ou les bidon d’essence qui tourne sur eux même
-Réparation
-Si la voiture est abimé alors on paye pour réparer la voiture
 
 ## Répartition des tâches
 
@@ -52,4 +27,15 @@ Comme nous avons plusieurs objets, nous allons les répartir par personne. Avant
 |Voiture|Une voiture générique, qu’elle soit celle du joueur ou un ennemi sur la piste.|- nom (std::string) : Nom de la voiture.<br>    <br>- marque (std::string) : Marque de la voiture.<br>    <br>- couleur (std::string) : Couleur de la voiture.<br>    <br>- prix (float) : Prix d’achat.<br>    <br>- estAchetable (bool) : Indique si la voiture peut être achetée ou non.<br>    <br>- position (float) : Position sur la piste.<br>    <br>- piste (int) : Numéro de la piste où se trouve la voiture.<br>    <br>- sonKlaxon (std::string) : Le son émis par le klaxon.<br>    <br>-|klaxonner() : Émet le son du klaxon.<br><br>avancer(float distance) : Déplace la voiture sur la piste.<br><br>changerPiste(int nouvellePiste) : Change la piste actuelle.|
 
 
+## Instructions d'installation
+### Installation de la librarie SDL
+1. Télécharger depuis le site officiel et suivre les instructions: [Site Officiel](https://github.com/libsdl-org/SDL/releases/tag/release-2.30.11)
+### Installation du jeu
+1. Télecharger les fichiers depuis GitHub et deziper.
+2. Placer dans le dossier où vous le voulez.
 
+## Instructions de compilation
+### Sur Mac :
+1. **Aller dans le dossier du projet:** cd Users\[cheminDuProjet]
+2. **Compiler le projet avec:** g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
+3. **Executer le projet:** Utiliser le debugger de base de VS Code.
