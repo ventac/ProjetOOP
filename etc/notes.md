@@ -23,3 +23,9 @@ Appel de phare et klaxon si proche d’une voiture
 les pièce de monnais ou les bidon d’essence qui tourne sur eux même
 Réparation
 Si la voiture est abimé alors on paye pour réparer la voiture
+
+
+Chaque classe dans un fichier séparé
+
+Todo
+- Detéction de colision
