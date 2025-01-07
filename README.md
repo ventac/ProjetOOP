@@ -20,7 +20,13 @@ Le jeu plus proche de notre idée c'est Road fighter de 1984:
 
 Comme nous avons plusieurs objets, nous allons les répartir par personne. Avant de répartir qui va décrire chaque objet, nous allons parler pour voir s’ils sont vraiment nécessaires
 
+### Guilherme
+- Fond
+- Création du player
+
 ### Liste objets:
+- Création des NPCs
+
 
 |   |   |   |   |
 |---|---|---|---|
