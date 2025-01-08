@@ -10,7 +10,7 @@ const int FPS = 60;
 const int FRAME_DELAY = 1000 / FPS;
 
 // Vitesse de défilement
-const int SPEED = 2;
+const int SPEED = 1;
 
 // Fichiers de ressources
 const char ROAD_IMAGE_PATH[] = "./Resources/road1.bmp";

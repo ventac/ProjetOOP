@@ -16,3 +16,5 @@
 - Made changes to README.md, adding install instructions.
 - Added GitHub badges.
 - Created "create-player-car" branch.
+- Created PlayerCar.h and PlayerCar.cpp
+- Created Road.h and Road.cpp for proper handling of its rendering.
