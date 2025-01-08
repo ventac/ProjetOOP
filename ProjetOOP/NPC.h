@@ -1,42 +1,27 @@
-#include <iostream>
 #include <SDL2/SDL.h>
-#include <cmath>
 #include "constants.h"
 
 class NPC {
 public:
-    int x, y; // Position du NPC
+    int x, y;  // Position du NPC
     int speed; // Vitesse de déplacement
-    SDL_Texture* texture; // Texture du NPC
+     static constexpr int width = 50;  // Taille constante
+    static constexpr int height = 50;
 
-    NPC(SDL_Renderer* renderer, const std::string& imagePath, int startX, int startY, int speed)
-        : x(startX), y(startY), speed(speed) {
-        SDL_Surface* tempSurface = SDL_LoadBMP(imagePath.c_str());
-        if (!tempSurface) {
-            std::cerr << "Error loading NPC image: " << SDL_GetError() << std::endl;
-            texture = nullptr;
-        } else {
-            texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-            SDL_FreeSurface(tempSurface);
-        }
-    }
-
-    ~NPC() {
-        if (texture) {
-            SDL_DestroyTexture(texture);
-        }
-    }
+    NPC(int startX, int startY, int speed)
+        : x(startX), y(startY), speed(speed) {}
 
     void update() {
-        // Simple vertical movement for demo purposes
-        y += speed;
-        if (y > SCREEN_HEIGHT) {
-            y = -50; // Reposition above the screen when offscreen
-        }
+        y += speed;  // Mouvement uniquement vertical
+    if (y > SCREEN_HEIGHT) {
+        y = -height;  // Réapparait en haut
+    }
     }
 
     void render(SDL_Renderer* renderer) {
-        SDL_Rect destRect = { x, y, 50, 50 }; // Adjust size as needed
-        SDL_RenderCopy(renderer, texture, NULL, &destRect);
+        // Dessiner un carré rouge comme un véhicule placeholder
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Rouge
+        SDL_Rect destRect = { x, y, 50, 50 };             // Position et taille
+        SDL_RenderFillRect(renderer, &destRect);          // Dessiner le rectangle
     }
 };
