@@ -10,57 +10,9 @@
 #include "constants.h"  // Inclut le fichier des constantes
 #include "PlayerCar.h"
 #include "Road.h"
+#include "NPC.h"
 
 using namespace std;
-
-
-
-
-// void renderRoad(SDL_Renderer** r, int& posY) {
-//     const int IMAGE_SIZE = 600; // Size of the road image
-
-//     // Update position for scrolling down
-//     posY += SPEED;
-//     if (posY >= IMAGE_SIZE) {
-//         posY = 0;
-//     }
-
-//     // Load the image
-//     SDL_Surface* image = SDL_LoadBMP("./Resources/road1.bmp"); 
-//     if (!image) {
-//         std::cerr << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
-//         return;
-//     }
-
-//     // Convert to texture
-//     SDL_Texture* pTextureImage = SDL_CreateTextureFromSurface(*r, image); 
-//     SDL_FreeSurface(image); // Free the surface
-//     if (!pTextureImage) {
-//         std::cerr << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
-//         return;
-//     }
-
-//     // Clear the screen with a black background
-//     SDL_SetRenderDrawColor(*r, 0, 0, 0, 255);
-//     SDL_RenderClear(*r);
-
-//     // Render multiple segments of the road image to cover the entire screen
-//     for (int i = -1; i <= SCREEN_HEIGHT / IMAGE_SIZE + 1; ++i) {
-//         SDL_Rect dest = { 0, posY - i * IMAGE_SIZE, SCREEN_WIDTH, IMAGE_SIZE };
-//         SDL_RenderCopy(*r, pTextureImage, NULL, &dest);
-//     }
-
-//     // Update the screen
-//     SDL_RenderPresent(*r);
-
-//     // Destroy the texture after rendering
-//     SDL_DestroyTexture(pTextureImage);
-// }
-
-void renderPlayer(SDL_Renderer** r, int& posY) {
-
-}
-
 
 int main(int argc, const char * argv[]) {
     
@@ -107,6 +59,13 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
+    // Create NPCs
+    //std::vector<NPC> npcs;
+    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 100, 0, 2); // NPC 1
+    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 300, -100, 3); // NPC 2
+    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 500, -200, 1); // NPC 3
+
+
 
     // Definition of the Player's car
     PlayerCar playerCar(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2);
@@ -120,6 +79,9 @@ int main(int argc, const char * argv[]) {
     int frameTime;
 
     int posY = 0;
+    NPC car1(renderer, "./Resources/IMG/npc_cars/peugeot108.bmp", 100, 0, 1);
+    NPC car2(renderer, "./Resources/IMG/npc_cars/peugeot308.bmp", 100, 0, 1);
+
     
     // Game loop
     while (!quit) {
@@ -157,6 +119,19 @@ int main(int argc, const char * argv[]) {
 
         // Render the road
         road.render(renderer);
+
+        // Render the NPC cars
+          // Update and render NPCs
+        car1.update();
+        car1.render(renderer);
+        car2.update();
+        car2.render(renderer);
+
+        // for (auto& npc : npcs) {
+        //     npc.update();
+        //     npc.render(renderer);
+        // }
+
 
         // Render the player car
         playerCar.render(renderer);

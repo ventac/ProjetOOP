@@ -15,4 +15,10 @@ const int SPEED = 1;
 // Fichiers de ressources
 const char ROAD_IMAGE_PATH[] = "./Resources/road1.bmp";
 
+// NPC
+const int NPC_MIN_SPEED = 0;  // Slowing down
+const int NPC_MAX_SPEED = 2;  // Speeding up
+
+
+
 #endif // CONSTANTS_H

@@ -6,8 +6,6 @@ PlayerCar::PlayerCar(int startX, int startY, int carWidth, int carHeight, int ca
 
 // Movement methods
 void PlayerCar::moveUp() {
-    // printf(getY);
-    // if (getY() < SCREEN_HEIGHT)
     y -= speed;
 }
 
