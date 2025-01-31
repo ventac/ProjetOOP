@@ -1,17 +1,32 @@
 # La Polo de Jarod
+## Description:
 Ce sera un jeu programmé en SDL. Un jeu arcade de type endless runner game, tel que Subway Surfers, Frogger.
 
+![Static Badge](https://img.shields.io/badge/C%2B%2B-blue%20?logo=c%2B%2B)
+![Static Badge](https://img.shields.io/badge/In_development-gold?label=Progress:)
+
+
 ## Inspiration:
+Nous sommes inspirés des jeux de type infinite runner, tels que le suivants:
+
 <img width="605" alt="image" src="https://github.com/user-attachments/assets/6fdd9311-8975-4d16-b1ce-9b89a3fd0338">
 
-<img width="200" alt="image" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F66.media.tumblr.com%2Ff708fae33ab08f9925f20378503a9758%2Ftumblr_mhb6zjbkhR1qh8rq6o1_500.gif&f=1&nofb=1&ipt=4acf48ae2cd4ff2cb79215daa5f1b5965c043337e9e776b01d1a5ae82b82c5ab&ipo=images">
 
+Le jeu plus proche de notre idée c'est Road fighter de 1984:
+
+<img width="200" alt="image" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F66.media.tumblr.com%2Ff708fae33ab08f9925f20378503a9758%2Ftumblr_mhb6zjbkhR1qh8rq6o1_500.gif&f=1&nofb=1&ipt=4acf48ae2cd4ff2cb79215daa5f1b5965c043337e9e776b01d1a5ae82b82c5ab&ipo=images">
 
 ## Répartition des tâches
 
 Comme nous avons plusieurs objets, nous allons les répartir par personne. Avant de répartir qui va décrire chaque objet, nous allons parler pour voir s’ils sont vraiment nécessaires
 
+### Guilherme
+- Fond
+- Création du player
+
 ### Liste objets:
+- Création des NPCs
+
 
 |   |   |   |   |
 |---|---|---|---|
