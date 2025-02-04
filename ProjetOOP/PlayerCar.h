@@ -2,6 +2,7 @@
 #define PLAYERCAR_H
 
 #include <SDL2/SDL.h>
+#include <string>
 
 class PlayerCar {
 private:
@@ -10,10 +11,13 @@ private:
     int width;    // Width of the car
     int height;   // Height of the car
     int speed;    // Movement speed of the car
+    SDL_Texture* texture; // NPC texture
 
 public:
     // Constructor
-    PlayerCar(int startX, int startY, int carWidth, int carHeight, int carSpeed);
+    PlayerCar(SDL_Renderer* renderer, int startX, int startY, int carWidth, int carHeight, int carSpeed, const std::string& imagePath);
+        bool isTextureLoaded() const { return texture != nullptr; }
+
 
     // Movement methods
     void moveUp();

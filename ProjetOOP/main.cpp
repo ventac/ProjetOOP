@@ -78,7 +78,7 @@ int main(int argc, const char * argv[]) {
 
 
     // Definition of the Player's car
-        PlayerCar playerCar(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2);
+        PlayerCar playerCar(renderer, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2, "./Resources/poloRougeOK.bmp");
         
         // Création d'un NPC
     // Frames
