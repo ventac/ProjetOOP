@@ -14,6 +14,13 @@
 
 using namespace std;
 
+// Fonction pour détecter les collisions entre la voiture du joueur et les NPCs
+bool checkCollision(const PlayerCar& player, const NPC& npc) {
+    SDL_Rect playerRect = {player.getX(), player.getY(), 50, 100};
+    SDL_Rect npcRect = {npc.x, npc.y, 50, 100};
+    return SDL_HasIntersection(&playerRect, &npcRect);
+}
+
 int main(int argc, const char * argv[]) {
     
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
@@ -37,7 +44,7 @@ int main(int argc, const char * argv[]) {
     
     //SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN, &window, &renderer);
     
-     if (!window){
+    if (!window){
         cerr << "Error: " << SDL_GetError();
         return 1;
     }
@@ -59,7 +66,10 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
-    // Create NPCs
+    bool running = true;
+    while (running) {
+        // Définition de la voiture du joueur
+         // Create NPCs
     //std::vector<NPC> npcs;
     //npcs.emplace_back(renderer, "./Resources/road1.bmp", 100, 0, 2); // NPC 1
     //npcs.emplace_back(renderer, "./Resources/road1.bmp", 300, -100, 3); // NPC 2
@@ -68,88 +78,93 @@ int main(int argc, const char * argv[]) {
 
 
     // Definition of the Player's car
-    PlayerCar playerCar(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2);
-    
-    // Event detection variable
-    SDL_Event event;
-    bool quit = false;
-    
+        PlayerCar playerCar(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2);
+        
+        // Création d'un NPC
     // Frames
     Uint32 frameStart = 0;
     int frameTime;
 
     int posY = 0;
     NPC car1(renderer, "./Resources/IMG/npc_cars/peugeot108.bmp", 100, 0, 1);
-    NPC car2(renderer, "./Resources/IMG/npc_cars/peugeot308.bmp", 100, 0, 1);
-
-    
-    // Game loop
-    while (!quit) {
-        while (SDL_PollEvent(&event)){  // Detect quit game
-            if (event.type == SDL_QUIT){
-                quit = true;
+    NPC car2(renderer, "./Resources/IMG/npc_cars/peugeot308.bmp", 100, 0, 1);        
+        // Variable de détection d'événements
+        SDL_Event event;
+        bool quit = false;
+        bool gameOver = false;
+        
+        // Boucle du jeu
+        while (!quit) {
+            while (SDL_PollEvent(&event)){  // Détection de la fermeture du jeu
+                if (event.type == SDL_QUIT){
+                    quit = true;
+                    running = false;
+                }
+                if (gameOver && event.type == SDL_KEYDOWN) {
+                    if (event.key.keysym.sym == SDLK_q) {
+                        quit = true;
+                        running = false;
+                    } else if (event.key.keysym.sym == SDLK_r) {
+                        quit = true;
+                    }
+                }
             }
+
+            if (!gameOver) {
+                // Gestion des entrées du joueur et prévention des collisions avec les bords
+                const Uint8* state = SDL_GetKeyboardState(NULL);
+                if (state[SDL_SCANCODE_UP] && playerCar.getY() > 0) {
+                    playerCar.moveUp();
+                }
+                if (state[SDL_SCANCODE_DOWN] && playerCar.getY() < SCREEN_HEIGHT) {
+                    playerCar.moveDown();
+                }
+                if (state[SDL_SCANCODE_LEFT] && playerCar.getX() > 0) {
+                    playerCar.moveLeft();
+                }
+                if (state[SDL_SCANCODE_RIGHT] && playerCar.getX() < SCREEN_WIDTH) {
+                    playerCar.moveRight();
+                }
+
+                // Mise à jour du NPC
+                car2.update();
+
+                // Vérification des collisions
+                if (checkCollision(playerCar, car2)) {
+                    gameOver = true;
+                }
+            }
+
+            // Rendu
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Fond noir
+            SDL_RenderClear(renderer);
+            
+            // Rendu de la route
+            road.render(renderer);
+            
+            // Rendu des NPCs
+            car2.render(renderer);
+            
+            // Rendu de la voiture du joueur
+            playerCar.render(renderer);
+
+            // Affichage Game Over si collision
+            if (gameOver) {
+                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                SDL_Rect gameOverRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 3, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4};
+                SDL_RenderFillRect(renderer, &gameOverRect);
+                
+                // Texte "Game Over"
+                cout << "Game Over! Press R to Restart or Q to Quit." << endl;
+            }
+
+            SDL_RenderPresent(renderer);
         }
-
-        // Handle player input and avoid colision to borders
-        const Uint8* state = SDL_GetKeyboardState(NULL);
-        if (state[SDL_SCANCODE_UP]) {
-            if (playerCar.getY() > 0)
-            playerCar.moveUp();
-        }
-        if (state[SDL_SCANCODE_DOWN]) {
-            if (playerCar.getY() < SCREEN_HEIGHT)
-            playerCar.moveDown();
-        }
-        if (state[SDL_SCANCODE_LEFT]) {
-            if (playerCar.getX() > 0)
-            playerCar.moveLeft();
-        }
-        if (state[SDL_SCANCODE_RIGHT]) {
-            if (playerCar.getX() < SCREEN_WIDTH)
-            playerCar.moveRight();
-        }
-
-
-
-        // Rendering 
-        // Clear the screen with a black background
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);        
-
-        // Render the road
-        road.render(renderer);
-
-        // Render the NPC cars
-          // Update and render NPCs
-        car1.update();
-        car1.render(renderer);
-        car2.update();
-        car2.render(renderer);
-
-        // for (auto& npc : npcs) {
-        //     npc.update();
-        //     npc.render(renderer);
-        // }
-
-
-        // Render the player car
-        playerCar.render(renderer);
-        SDL_RenderPresent(renderer);
-        
-        // Control of the framerate
-        // frameTime = SDL_GetTicks() - frameStart;
-        // if (frameTime < FRAME_DELAY) {
-        //     SDL_Delay(FRAME_DELAY - frameTime);
-        // }
-        
     }
     
+    // Nettoyage et fermeture
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
     return 0;
-    
 }
-
-// Test GitHub XCode
