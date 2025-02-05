@@ -6,8 +6,6 @@
 
 class Road {
 private:
-    int posY;          
-    // Current position of the road for scrolling
     int speed;         
     // Scrolling speed
     int imageSize;     
@@ -15,8 +13,11 @@ private:
     SDL_Texture* texture; // Texture of the road image
 
 public:
+    int posY;          
+    // Current position of the road for scrolling
+
     // Constructor
-    Road(int scrollingSpeed, int imageSize);
+    Road(int imageSize);
 
     // Destructor
     ~Road();
@@ -26,9 +27,6 @@ public:
 
     // Render the road
     void render(SDL_Renderer* renderer);
-
-    // Accessor for position
-    int getPosY() const;
 };
 
 #endif // ROAD_H

@@ -52,5 +52,5 @@ Comme nous avons plusieurs objets, nous allons les répartir par personne. Avant
 ## Instructions de compilation
 ### Sur Mac :
 1. **Aller dans le dossier du projet:** cd Users\[cheminDuProjet]
-2. **Compiler le projet avec:** g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp PlayerCar.cpp Road.cpp NPC.cpp -o main
+2. **Compiler le projet avec:** g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp PlayerCar.cpp Road.cpp NPC.cpp ImageManager.cpp -o main
 3. **Executer le projet:** Utiliser le debugger de base de VS Code.

@@ -1,7 +1,7 @@
 // main.cpp
 // ProjetOOP
 // Compilation command: 
-// g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp -o main
+//g++ -std=c++17 -I/Library/Frameworks/SDL2.framework/Headers -F/Library/Frameworks -framework SDL2 main.cpp PlayerCar.cpp Road.cpp NPC.cpp ImageManager.cpp -o main
 // https://www.youtube.com/watch?v=JbsmRKi18SI&list=PLJ-vQubfi2yEfPCqb1lr9GX2Kc1NhU4du
 
 #include <iostream>
@@ -11,6 +11,7 @@
 #include "PlayerCar.h"
 #include "Road.h"
 #include "NPC.h"
+#include "ImageManager.h"
 
 using namespace std;
 
@@ -21,18 +22,19 @@ bool checkCollision(const PlayerCar& player, const NPC& npc) {
     return SDL_HasIntersection(&playerRect, &npcRect);
 }
 
+// Function overload 
+bool checkCollision(const NPC& npc1, const NPC& npc2) {
+    SDL_Rect playerRect = {npc1.x, npc1.y, 50, 100};
+    SDL_Rect npcRect = {npc2.x, npc2.y, 50, 100};
+    return SDL_HasIntersection(&playerRect, &npcRect);
+}
+
 int main(int argc, const char * argv[]) {
     
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
         cout << "Error: " << SDL_GetError();
         return 1;
     }else cout << "OK";
-    
-    // Creation of RENDERER and WINDOW
-    //SDL_Window *window = NULL;
-    //SDL_Renderer *renderer = NULL;
-    
-    // window = SDL_CreateWindow("La Polo de Jarod", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
     
     SDL_Window* window = SDL_CreateWindow("Player Car Game", 
                                           SDL_WINDOWPOS_CENTERED, 
@@ -54,9 +56,9 @@ int main(int argc, const char * argv[]) {
     //SDL_SetWindowTitle(window, "La Polo de Jarod");
 
     // Definition of the road background
-    Road road(1, 600);  // Speed = 5, Image size = 600
+    Road road(600);  // Image size = 600
     // Load image for the road
-    if (!road.loadTexture(renderer, "./Resources/road1.bmp")) {
+    if (!road.loadTexture(renderer, IMG_ROAD)) {
         cerr << "Failed to load road texture!" << endl;
 
         // Close with error output = 1
@@ -66,28 +68,23 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
+    SDL_Texture* img_gameover = ImageManager::LoadTexture(IMG_GAMEOVER, renderer);
+
     bool running = true;
     while (running) {
-        // Définition de la voiture du joueur
-         // Create NPCs
-    //std::vector<NPC> npcs;
-    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 100, 0, 2); // NPC 1
-    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 300, -100, 3); // NPC 2
-    //npcs.emplace_back(renderer, "./Resources/road1.bmp", 500, -200, 1); // NPC 3
 
+        // Definition of the Player's car
+        PlayerCar playerCar(renderer, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2, IMG_PLAYER);
 
-
-    // Definition of the Player's car
-        PlayerCar playerCar(renderer, SCREEN_WIDTH / 2, SCREEN_HEIGHT - 100, 50, 100, 2, "./Resources/poloRougeOK.bmp");
-        
         // Création d'un NPC
-    // Frames
-    Uint32 frameStart = 0;
-    int frameTime;
+        // Frames
+        Uint32 frameStart = 0;
+        int frameTime;
 
-    int posY = 0;
-    NPC car1(renderer, "./Resources/IMG/npc_cars/peugeot108.bmp", 100, 0, 1);
-    NPC car2(renderer, "./Resources/IMG/npc_cars/peugeot308.bmp", 100, 0, 1);        
+        int posY = 0;
+        NPC car1(renderer, IMG_CAR1, 100, 0, 1);
+        NPC car2(renderer, IMG_CAR2, 100, 0, 1);        
+
         // Variable de détection d'événements
         SDL_Event event;
         bool quit = false;
@@ -99,14 +96,6 @@ int main(int argc, const char * argv[]) {
                 if (event.type == SDL_QUIT){
                     quit = true;
                     running = false;
-                }
-                if (gameOver && event.type == SDL_KEYDOWN) {
-                    if (event.key.keysym.sym == SDLK_q) {
-                        quit = true;
-                        running = false;
-                    } else if (event.key.keysym.sym == SDLK_r) {
-                        quit = true;
-                    }
                 }
             }
 
@@ -126,12 +115,20 @@ int main(int argc, const char * argv[]) {
                     playerCar.moveRight();
                 }
 
-                // Mise à jour du NPC
+                // Updating NPC position
+                car1.update();
                 car2.update();
 
-                // Vérification des collisions
-                if (checkCollision(playerCar, car2)) {
-                    gameOver = true;
+                // Collision detection
+                if (checkCollision(playerCar, car1)) 
+                gameOver = true;
+                
+                if (checkCollision(playerCar, car2)) 
+                gameOver = true;
+
+                if (checkCollision(car1, car2)) {
+                    car2.x += rand()%(100-50 + 1) + 50;
+                    // Between 50 and 100 pixels of deplacement
                 }
             }
 
@@ -140,9 +137,13 @@ int main(int argc, const char * argv[]) {
             SDL_RenderClear(renderer);
             
             // Rendu de la route
-            road.render(renderer);
-            
+            if (!gameOver){
+                road.render(renderer);
+                road.posY += 1;
+            }
+
             // Rendu des NPCs
+            car1.render(renderer);
             car2.render(renderer);
             
             // Rendu de la voiture du joueur
@@ -150,12 +151,47 @@ int main(int argc, const char * argv[]) {
 
             // Affichage Game Over si collision
             if (gameOver) {
-                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_Rect gameOverRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 3, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 4};
-                SDL_RenderFillRect(renderer, &gameOverRect);
-                
-                // Texte "Game Over"
-                cout << "Game Over! Press R to Restart or Q to Quit." << endl;
+
+                int imgWidth, imgHeight;
+                ImageManager::GetImageDimensions(img_gameover, imgWidth, imgHeight);
+                int x = (SCREEN_WIDTH - imgWidth) / 2;
+                int y = (SCREEN_HEIGHT - imgHeight) / 2;
+
+                // Render the "Game Over" image
+                if (img_gameover) {  // Checking to make sure image was loaded
+                    ImageManager::Render(img_gameover, renderer, x, y, imgWidth, imgHeight);
+                } else {
+                    std::cerr << "Error: Game Over image not loaded!" << std::endl;
+                }
+
+                SDL_RenderPresent(renderer);
+
+                // Wait for user input to either restart or quit
+                bool waitingForInput = true;
+                while (waitingForInput) {
+                    SDL_Event event;
+                    while (SDL_PollEvent(&event)) {
+                        if (event.type == SDL_QUIT) {
+                            quit = true;
+                            waitingForInput = false;
+                        } 
+                        // Listen for key press events
+                        if (event.type == SDL_KEYDOWN) {
+                            if (event.key.keysym.sym == SDLK_q) {
+                                // Quit the game
+                                quit = true;
+                                waitingForInput = false;
+                                running = false;
+                            } else if (event.key.keysym.sym == SDLK_r) {
+                                // Restart the game
+                                //gameOver = false;  // Reset the game over flag
+                                quit = true;
+                                // Reset other game state elements here (player position, NPCs, etc.)
+                                waitingForInput = false;
+                            }
+                        }
+                    }
+                }
             }
 
             SDL_RenderPresent(renderer);

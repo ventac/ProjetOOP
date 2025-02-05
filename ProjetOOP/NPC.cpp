@@ -32,7 +32,9 @@ void NPC::update(/*Direction*/) {
     
     // This will reset the NPC's car when it reaches bottom (or top)
     if (y > SCREEN_HEIGHT) {        
-        y = -50; // Reposition above the screen when offscreen
+        y = rand()%(1000-50 + 1) + 50; // Reposition above the screen when offscreen
+        randSpeed += rand() % 5 - 2;  // Adds a random offset between -2 and 2 to introduce variation
+        if (y > 0) y*=-1;  // Avoid from appearing in the middle of screen
         // Random new position for x
         x = rand()%(SCREEN_WIDTH + 1);
     }

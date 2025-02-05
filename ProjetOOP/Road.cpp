@@ -2,8 +2,8 @@
 #include "constants.h"
 
 // Constructor
-Road::Road(int scrollingSpeed, int imageSize)
-    : posY(0), speed(scrollingSpeed), imageSize(imageSize), texture(nullptr) {}
+Road::Road(int imageSize)
+    : posY(0), imageSize(imageSize), texture(nullptr) {}
 
 // Destructor
 Road::~Road() {
@@ -34,7 +34,8 @@ bool Road::loadTexture(SDL_Renderer* renderer, const char* filePath) {
 // Render the road
 void Road::render(SDL_Renderer* renderer) {
     
-    posY += speed;
+    //posY += speed;
+    
     if (posY >= imageSize) {
         posY = 0;
     }
@@ -45,9 +46,4 @@ void Road::render(SDL_Renderer* renderer) {
         SDL_RenderCopy(renderer, texture, NULL, &dest);
     }
 
-}
-
-// Accessor for position
-int Road::getPosY() const {
-    return posY;
 }
