@@ -6,9 +6,12 @@
 
 class Road {
 private:
-    int posY;          // Current position of the road for scrolling
-    int speed;         // Scrolling speed
-    int imageSize;     // Size of the road image
+    int posY;          
+    // Current position of the road for scrolling
+    int speed;         
+    // Scrolling speed
+    int imageSize;     
+    // Size of the road image
     SDL_Texture* texture; // Texture of the road image
 
 public:
