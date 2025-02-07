@@ -36,7 +36,7 @@ int main(int argc, const char * argv[]) {
         return 1;
     }else cout << "OK";
     
-    SDL_Window* window = SDL_CreateWindow("Player Car Game", 
+    SDL_Window* window = SDL_CreateWindow("La Polo de Jarod", 
                                           SDL_WINDOWPOS_CENTERED, 
                                           SDL_WINDOWPOS_CENTERED, 
                                           SCREEN_WIDTH, 
